@@ -1,0 +1,61 @@
+{
+  "name": "@lms/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./query": {
+      "types": "./dist/query/index.d.ts",
+      "default": "./dist/query/index.js"
+    },
+    "./mocks": {
+      "types": "./dist/mocks/index.d.ts",
+      "default": "./dist/mocks/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@lms/utils": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "msw": "^3.0.0",
+    "react": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "msw": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@lms/config": "workspace:*",
+    "@tanstack/react-query": "5.104.3",
+    "@types/react": "19.3.0",
+    "eslint": "10.12.0",
+    "msw": "3.0.3",
+    "react": "19.3.1",
+    "typescript": "6.0.3",
+    "vitest": "5.0.4"
+  }
+}

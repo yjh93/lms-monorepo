@@ -1,0 +1,9 @@
+{
+  "extends": "@lms/config/tsconfig/react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["src", "*.config.ts"]
+}

@@ -6,3 +6,4 @@ storybook-static
 pnpm-lock.yaml
 .turbo
 .changeset/*.md
+**/public/mockServiceWorker.js
