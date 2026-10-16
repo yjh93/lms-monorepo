@@ -1,0 +1,9 @@
+/*
+ * 사용처(admin, web)의 엔트리 CSS에서:
+ *   @import 'tailwindcss';
+ *   @import '@lms/ui/styles.css';
+ */
+@import '@lms/config/tailwind/theme.css';
+
+/* ui 컴포넌트의 클래스도 앱 빌드 시 스캔되도록 등록 */
+@source './components';
