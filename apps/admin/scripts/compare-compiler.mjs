@@ -51,4 +51,4 @@ const lines = [
   `| raw | ${kb(baseline.bundle.raw)} | ${kb(compiler.bundle.raw)} | ${diff(baseline.bundle.raw, compiler.bundle.raw)} |`,
   `| gzip | ${kb(baseline.bundle.gzip)} | ${kb(compiler.bundle.gzip)} | ${diff(baseline.bundle.gzip, compiler.bundle.gzip)} |`,
 ]
-console.log(`\n${lines.join('\n')}\n`)
+process.stdout.write(`\n${lines.join('\n')}\n\n`)
