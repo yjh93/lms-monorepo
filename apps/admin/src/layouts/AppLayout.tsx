@@ -13,6 +13,7 @@ interface NavItem {
 /** 메뉴도 권한표로 거른다. 권한 없는 메뉴는 아예 보이지 않는다. */
 const NAV_ITEMS: NavItem[] = [
   { to: '/students', label: '수강생', permission: 'student:read' },
+  { to: '/lessons', label: '수업/출석', permission: 'lesson:read' },
   { to: '/audit-logs', label: '변경 이력', permission: 'audit:read' },
 ]
 

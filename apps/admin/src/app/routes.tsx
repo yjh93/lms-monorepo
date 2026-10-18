@@ -2,6 +2,8 @@ import type { RouteObject } from 'react-router'
 import { HomeRedirect, RequireAuth, RequirePermission } from '../auth/guards'
 import { LoginPage } from '../auth/LoginPage'
 import { AuditLogPage } from '../features/audit/AuditLogPage'
+import { LessonDetailPage } from '../features/lessons/LessonDetailPage'
+import { LessonListPage } from '../features/lessons/LessonListPage'
 import { StudentCreatePage } from '../features/students/StudentCreatePage'
 import { StudentEditPage } from '../features/students/StudentEditPage'
 import { StudentImportPage } from '../features/students/import/StudentImportPage'
@@ -39,6 +41,14 @@ export const routes: RouteObject[] = [
                 element: <RequirePermission permission="student:update" />,
                 children: [{ path: ':studentId/edit', element: <StudentEditPage /> }],
               },
+            ],
+          },
+          {
+            path: 'lessons',
+            element: <RequirePermission permission="lesson:read" />,
+            children: [
+              { index: true, element: <LessonListPage /> },
+              { path: ':lessonId', element: <LessonDetailPage /> },
             ],
           },
           {
