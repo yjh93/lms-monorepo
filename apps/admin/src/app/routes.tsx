@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router'
 import { HomeRedirect, RequireAuth, RequirePermission } from '../auth/guards'
 import { LoginPage } from '../auth/LoginPage'
+import { AuditLogPage } from '../features/audit/AuditLogPage'
 import { StudentCreatePage } from '../features/students/StudentCreatePage'
 import { StudentEditPage } from '../features/students/StudentEditPage'
 import { StudentListPage } from '../features/students/StudentListPage'
@@ -34,6 +35,11 @@ export const routes: RouteObject[] = [
                 children: [{ path: ':studentId/edit', element: <StudentEditPage /> }],
               },
             ],
+          },
+          {
+            path: 'audit-logs',
+            element: <RequirePermission permission="audit:read" />,
+            children: [{ index: true, element: <AuditLogPage /> }],
           },
           { path: '*', element: <NotFoundPage /> },
         ],

@@ -3,7 +3,7 @@ import { Button, Input, Select } from '@lms/ui'
 import { useState } from 'react'
 import { CheckboxGroup } from '../../components/CheckboxGroup'
 import { levelOptions, statusOptions } from './studentDisplay'
-import { useDebouncedCallback } from './useDebouncedCallback'
+import { useDebouncedCallback } from '../../hooks/useDebouncedCallback'
 import type { useStudentListParams } from './useStudentListParams'
 
 type ListParams = ReturnType<typeof useStudentListParams>
