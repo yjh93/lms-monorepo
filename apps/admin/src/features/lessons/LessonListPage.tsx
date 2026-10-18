@@ -12,6 +12,37 @@ import { useAuthUser } from '../../auth/authStore'
 import { PageHeader } from '../../components/PageHeader'
 import { LESSON_STATUS_TONE } from './lessonDisplay'
 
+function WeekArrow({
+  direction,
+  disabled,
+  onClick,
+}: {
+  direction: 'prev' | 'next'
+  disabled: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={direction === 'prev' ? '이전 주' : '다음 주'}
+      disabled={disabled}
+      onClick={onClick}
+      className="flex size-9 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-800 disabled:opacity-40"
+    >
+      <svg viewBox="0 0 20 20" aria-hidden className="size-4">
+        <path
+          d={direction === 'prev' ? 'M12.5 5l-5 5 5 5' : 'M7.5 5l5 5-5 5'}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  )
+}
+
 function groupByDate(lessons: Lesson[]) {
   const groups = new Map<string, Lesson[]>()
   for (const lesson of lessons)
@@ -28,7 +59,7 @@ export function LessonListPage() {
   const teachers = useTeachers({ enabled: !isTeacher })
 
   const currentWeek = lessons.data?.week ?? (query.week ? weekStartOf(query.week) : '')
-  const thisWeek = weekStartOf(new Date())
+  const isThisWeek = currentWeek === weekStartOf(new Date())
 
   const setParam = (key: 'week' | 'teacherId', value: string) =>
     setSearchParams((previous) => {
@@ -49,45 +80,43 @@ export function LessonListPage() {
         aria-label="주 선택"
         className="rounded-card mb-6 flex flex-wrap items-center justify-between gap-3 bg-white px-6 py-4"
       >
-        <div className="flex items-center gap-2">
-          <Button
-            variant="neutral"
-            size="sm"
+        {/* 이전/다음 화살표가 기간을 감싸는 하나의 컨트롤. 이번 주 여부는 배지로 표시해 위치가 흔들리지 않는다. */}
+        <div className="flex items-center gap-3">
+          <WeekArrow
+            direction="prev"
             disabled={!currentWeek}
             onClick={() => setParam('week', addDaysISO(currentWeek, -7))}
-          >
-            이전 주
-          </Button>
+          />
           <p
-            className="min-w-48 text-center text-[17px] font-bold text-gray-900"
+            className="flex min-w-56 items-center justify-center gap-2 text-[17px] font-bold text-gray-900 tabular-nums"
             aria-live="polite"
           >
             {currentWeek ? formatWeekRange(currentWeek) : '…'}
+            {isThisWeek && <Badge tone="brand">이번 주</Badge>}
           </p>
-          <Button
-            variant="neutral"
-            size="sm"
+          <WeekArrow
+            direction="next"
             disabled={!currentWeek}
             onClick={() => setParam('week', addDaysISO(currentWeek, 7))}
-          >
-            다음 주
-          </Button>
-          {currentWeek !== thisWeek && (
-            <Button variant="ghost" size="sm" onClick={() => setParam('week', '')}>
-              이번 주
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          {!isThisWeek && currentWeek && (
+            <Button variant="neutral" size="sm" onClick={() => setParam('week', '')}>
+              이번 주로
             </Button>
           )}
+          {!isTeacher && (
+            <Select
+              aria-label="강사"
+              className="h-9 w-44 rounded-[10px] text-[14px]"
+              placeholder="전체 강사"
+              value={query.teacherId}
+              onChange={(event) => setParam('teacherId', event.target.value)}
+              options={(teachers.data ?? []).map((t) => ({ value: t.id, label: t.name }))}
+            />
+          )}
         </div>
-        {!isTeacher && (
-          <Select
-            aria-label="강사"
-            className="h-9 w-48"
-            placeholder="전체 강사"
-            value={query.teacherId}
-            onChange={(event) => setParam('teacherId', event.target.value)}
-            options={(teachers.data ?? []).map((t) => ({ value: t.id, label: t.name }))}
-          />
-        )}
       </section>
 
       {lessons.isPending ? (
