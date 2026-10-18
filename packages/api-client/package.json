@@ -6,14 +6,17 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "@lms/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./query": {
+      "@lms/source": "./src/query/index.ts",
       "types": "./dist/query/index.d.ts",
       "default": "./dist/query/index.js"
     },
     "./mocks": {
+      "@lms/source": "./src/mocks/index.ts",
       "types": "./dist/mocks/index.d.ts",
       "default": "./dist/mocks/index.js"
     }
