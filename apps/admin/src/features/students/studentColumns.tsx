@@ -6,18 +6,24 @@ import { STATUS_TONE } from './studentDisplay'
 
 const column = createDataTableColumnHelper<Student>()
 
-/** 정렬 가능 컬럼은 서버가 지원하는 정렬 키(STUDENT_SORT_KEYS)와 id를 맞춘다. */
-export const studentColumns = [
+/**
+ * 정렬 가능 컬럼은 서버가 지원하는 정렬 키(STUDENT_SORT_KEYS)와 id를 맞춘다.
+ * 수정 권한이 없으면 이름을 링크 대신 텍스트로 보여준다.
+ */
+export const getStudentColumns = ({ canEdit }: { canEdit: boolean }) => [
   column.accessor('name', {
     header: '이름',
-    cell: (info) => (
-      <Link
-        to={`/students/${info.row.original.id}/edit`}
-        className="text-brand-700 font-medium hover:underline"
-      >
-        {info.getValue()}
-      </Link>
-    ),
+    cell: (info) =>
+      canEdit ? (
+        <Link
+          to={`/students/${info.row.original.id}/edit`}
+          className="text-brand-700 font-medium hover:underline"
+        >
+          {info.getValue()}
+        </Link>
+      ) : (
+        <span className="font-medium">{info.getValue()}</span>
+      ),
   }),
   column.accessor('email', { header: '이메일', enableSorting: false }),
   column.accessor('phone', {

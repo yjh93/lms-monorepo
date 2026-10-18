@@ -1,5 +1,12 @@
 import { z } from 'zod'
-import { enumArrayParam, PAGE_SIZES, paginatedSchema, sortOrderSchema } from './common'
+import {
+  createSearchParamsCodec,
+  enumArrayParam,
+  pageParam,
+  pageSizeParam,
+  paginatedSchema,
+  sortOrderSchema,
+} from './common'
 
 // ──────────────────────────────────────────────
 // 도메인 enum
@@ -108,11 +115,8 @@ export const STUDENT_SORT_KEYS = ['name', 'company', 'enrolledAt', 'createdAt'] 
 export type StudentSortKey = (typeof STUDENT_SORT_KEYS)[number]
 
 export const studentListQuerySchema = z.object({
-  page: z.coerce.number().int().min(1).catch(1),
-  pageSize: z.coerce
-    .number()
-    .refine((v): v is (typeof PAGE_SIZES)[number] => (PAGE_SIZES as readonly number[]).includes(v))
-    .catch(10),
+  page: pageParam,
+  pageSize: pageSizeParam(10),
   sort: z.enum(STUDENT_SORT_KEYS).catch('createdAt'),
   order: sortOrderSchema.catch('desc'),
   status: enumArrayParam(STUDENT_STATUSES),
@@ -122,28 +126,30 @@ export const studentListQuerySchema = z.object({
 })
 export type StudentListQuery = z.output<typeof studentListQuerySchema>
 
-export const defaultStudentListQuery: StudentListQuery = studentListQuerySchema.parse({})
+const studentListCodec = createSearchParamsCodec(studentListQuerySchema, ['status', 'level'])
 
-const ARRAY_KEYS = ['status', 'level'] as const satisfies ReadonlyArray<keyof StudentListQuery>
+export const defaultStudentListQuery: StudentListQuery = studentListCodec.defaults
+/** URLSearchParams → StudentListQuery */
+export const parseStudentListQuery = studentListCodec.parse
+/** StudentListQuery → URLSearchParams (기본값 생략) */
+export const toStudentListSearchParams = studentListCodec.serialize
 
-/** URLSearchParams → StudentListQuery (배열 키는 getAll로 수집) */
-export function parseStudentListQuery(params: URLSearchParams): StudentListQuery {
-  const raw: Record<string, unknown> = Object.fromEntries(params)
-  for (const key of ARRAY_KEYS) raw[key] = params.getAll(key)
-  return studentListQuerySchema.parse(raw)
-}
+// ──────────────────────────────────────────────
+// CSV 일괄 등록
+// ──────────────────────────────────────────────
 
-/** StudentListQuery → URLSearchParams. 기본값과 같은 항목은 생략해 URL을 짧게 유지한다. */
-export function toStudentListSearchParams(query: Partial<StudentListQuery>): URLSearchParams {
-  const params = new URLSearchParams()
-  const merged = { ...defaultStudentListQuery, ...query }
-  for (const [key, value] of Object.entries(merged)) {
-    const defaultValue = defaultStudentListQuery[key as keyof StudentListQuery]
-    if (Array.isArray(value)) {
-      for (const item of value) params.append(key, String(item))
-    } else if (value !== defaultValue && value !== '') {
-      params.set(key, String(value))
-    }
-  }
-  return params
-}
+export const studentImportRequestSchema = z.object({
+  rows: z.array(z.unknown()).min(1).max(500),
+})
+
+export const studentImportResultSchema = z.object({
+  createdCount: z.number().int(),
+  errors: z.array(
+    z.object({
+      /** 요청 rows 배열의 인덱스 */
+      index: z.number().int(),
+      fieldErrors: z.record(z.string(), z.string()),
+    }),
+  ),
+})
+export type StudentImportResult = z.infer<typeof studentImportResultSchema>

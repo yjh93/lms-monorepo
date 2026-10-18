@@ -1,5 +1,6 @@
 import {
   keepPreviousData,
+  type QueryClient,
   queryOptions,
   useMutation,
   useQuery,
@@ -11,8 +12,10 @@ import {
   fetchCompanies,
   fetchStudent,
   fetchStudents,
+  importStudents,
   updateStudent,
 } from '../students'
+import { auditKeys, dashboardKeys } from './lessons'
 
 /**
  * Query key factory: 키를 한 곳에서 계층적으로 관리한다.
@@ -67,10 +70,7 @@ export function useCreateStudent() {
     mutationFn: (values: StudentFormValues) => createStudent(values),
     onSuccess: (student) => {
       queryClient.setQueryData(studentKeys.detail(student.id), student)
-      return Promise.all([
-        queryClient.invalidateQueries({ queryKey: studentKeys.lists() }),
-        queryClient.invalidateQueries({ queryKey: studentKeys.companies() }),
-      ])
+      return invalidateAfterStudentChange(queryClient)
     },
   })
 }
@@ -81,7 +81,25 @@ export function useUpdateStudent(id: string) {
     mutationFn: (values: StudentFormValues) => updateStudent(id, values),
     onSuccess: (student: Student) => {
       queryClient.setQueryData(studentKeys.detail(id), student)
-      return queryClient.invalidateQueries({ queryKey: studentKeys.lists() })
+      return invalidateAfterStudentChange(queryClient)
     },
   })
+}
+
+export function useImportStudents() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (rows: StudentFormValues[]) => importStudents(rows),
+    onSuccess: () => invalidateAfterStudentChange(queryClient),
+  })
+}
+
+/** 수강생 변경은 목록·고객사 옵션·대시보드·감사 로그에 영향을 준다. */
+function invalidateAfterStudentChange(queryClient: QueryClient) {
+  return Promise.all([
+    queryClient.invalidateQueries({ queryKey: studentKeys.lists() }),
+    queryClient.invalidateQueries({ queryKey: studentKeys.companies() }),
+    queryClient.invalidateQueries({ queryKey: dashboardKeys.all }),
+    queryClient.invalidateQueries({ queryKey: auditKeys.all }),
+  ])
 }

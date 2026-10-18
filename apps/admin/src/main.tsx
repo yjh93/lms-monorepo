@@ -1,10 +1,10 @@
-import { configureApiClient } from '@lms/api-client'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { setupApiClient } from './app/apiClient'
 import { App } from './app/App'
 import './index.css'
 
-configureApiClient({ baseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api' })
+setupApiClient(import.meta.env.VITE_API_BASE_URL ?? '/api')
 
 /**
  * 백엔드 없이 동작하도록 MSW 서비스 워커를 먼저 띄운 뒤 렌더링한다.

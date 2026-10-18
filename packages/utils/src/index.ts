@@ -17,3 +17,4 @@ export {
   type Permission,
   type Role,
 } from './permission'
+export { addDaysISO, formatDayLabel, formatWeekRange, toISODate, weekStartOf } from './date'

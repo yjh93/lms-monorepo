@@ -1,9 +1,12 @@
 import { PAGE_SIZES } from '@lms/api-client'
 import { useStudents } from '@lms/api-client/query'
 import { Button, DataTable, Select } from '@lms/ui'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router'
+import { Can } from '../../auth/Can'
+import { usePermission } from '../../auth/usePermission'
 import { PageHeader } from '../../components/PageHeader'
-import { studentColumns } from './studentColumns'
+import { getStudentColumns } from './studentColumns'
 import { StudentFilters } from './StudentFilters'
 import { useStudentListParams } from './useStudentListParams'
 
@@ -12,6 +15,8 @@ const pageSizeOptions = PAGE_SIZES.map((size) => ({ value: String(size), label: 
 export function StudentListPage() {
   const navigate = useNavigate()
   const params = useStudentListParams()
+  const canEdit = usePermission('student:update')
+  const columns = useMemo(() => getStudentColumns({ canEdit }), [canEdit])
   const { data, isPending, isFetching, isError, error, refetch } = useStudents(params.query)
 
   return (
@@ -19,7 +24,11 @@ export function StudentListPage() {
       <PageHeader
         title="수강생"
         description="고객사별 수강생을 조회하고 관리합니다."
-        actions={<Button onClick={() => navigate('/students/new')}>수강생 등록</Button>}
+        actions={
+          <Can permission="student:create">
+            <Button onClick={() => navigate('/students/new')}>수강생 등록</Button>
+          </Can>
+        }
       />
 
       <StudentFilters
@@ -52,7 +61,7 @@ export function StudentListPage() {
         <DataTable
           caption="수강생 목록"
           data={data?.items ?? []}
-          columns={studentColumns}
+          columns={columns}
           getRowId={(student) => student.id}
           rowCount={data?.total}
           sorting={params.sorting}

@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { request } from './http'
 import {
+  studentImportResultSchema,
   studentListResponseSchema,
   studentSchema,
   toStudentListSearchParams,
@@ -29,6 +30,15 @@ export function updateStudent(id: string, values: StudentFormValues) {
     method: 'PATCH',
     body: values,
     schema: studentSchema,
+  })
+}
+
+/** CSV 일괄 등록. 서버도 행 단위로 재검증하고, 실패한 행은 errors로 돌려준다(부분 성공). */
+export function importStudents(rows: StudentFormValues[]) {
+  return request('/students/import', {
+    method: 'POST',
+    body: { rows },
+    schema: studentImportResultSchema,
   })
 }
 
