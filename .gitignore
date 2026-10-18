@@ -1,3 +1,4 @@
+# ── 기본 ──
 node_modules
 dist
 .next
@@ -11,3 +12,53 @@ storybook-static
 test-results
 playwright-report
 *.log
+
+# ── Claude Code (개인용) ──
+.claude/settings.local.json
+CLAUDE.local.md
+.claude/worktrees/
+
+# Claude가 테스트·디버깅하며 만드는 임시 파일
+tmp/
+temp/
+scratch/
+*.tmp
+*.bak
+*.orig
+
+# ── 환경 변수 (예시 파일만 커밋) ──
+.env
+.env.*
+!.env.example
+
+# ── Next.js / 빌드 ──
+build/
+next-env.d.ts
+.vercel
+.swc/
+
+# ── 캐시 ──
+.cache/
+.eslintcache
+.stylelintcache
+.pnpm-store/
+
+# ── 테스트 ──
+blob-report/
+playwright/.cache/
+playwright/.auth/
+__screenshots__/
+
+# ── 에디터 ──
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# ── Windows ──
+Thumbs.db
+desktop.ini
+
+# ── 인증서·키 ──
+*.pem
+*.key
