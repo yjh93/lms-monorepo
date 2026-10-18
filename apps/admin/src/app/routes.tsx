@@ -4,6 +4,7 @@ import { LoginPage } from '../auth/LoginPage'
 import { AuditLogPage } from '../features/audit/AuditLogPage'
 import { StudentCreatePage } from '../features/students/StudentCreatePage'
 import { StudentEditPage } from '../features/students/StudentEditPage'
+import { StudentImportPage } from '../features/students/import/StudentImportPage'
 import { StudentListPage } from '../features/students/StudentListPage'
 import { AppLayout } from '../layouts/AppLayout'
 import { NotFoundPage } from '../pages/NotFoundPage'
@@ -29,6 +30,10 @@ export const routes: RouteObject[] = [
               {
                 element: <RequirePermission permission="student:create" />,
                 children: [{ path: 'new', element: <StudentCreatePage /> }],
+              },
+              {
+                element: <RequirePermission permission="student:import" />,
+                children: [{ path: 'import', element: <StudentImportPage /> }],
               },
               {
                 element: <RequirePermission permission="student:update" />,

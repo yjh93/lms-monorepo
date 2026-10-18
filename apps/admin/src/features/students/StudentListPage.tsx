@@ -25,9 +25,16 @@ export function StudentListPage() {
         title="수강생"
         description="고객사별 수강생을 조회하고 관리합니다."
         actions={
-          <Can permission="student:create">
-            <Button onClick={() => navigate('/students/new')}>수강생 등록</Button>
-          </Can>
+          <>
+            <Can permission="student:import">
+              <Button variant="secondary" onClick={() => navigate('/students/import')}>
+                CSV 일괄 등록
+              </Button>
+            </Can>
+            <Can permission="student:create">
+              <Button onClick={() => navigate('/students/new')}>수강생 등록</Button>
+            </Can>
+          </>
         }
       />
 
