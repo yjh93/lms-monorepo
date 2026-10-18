@@ -30,6 +30,18 @@ describe('로그인과 라우트 가드', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe('/login'))
     expect(authStore.getUser()).toBeNull()
   })
+
+  it('직접 로그아웃한 뒤 다시 로그인하면 이전 화면이 아니라 역할별 첫 화면으로 간다', async () => {
+    const user = userEvent.setup()
+    const { router } = renderRoute('/audit-logs')
+
+    await user.click(await screen.findByRole('button', { name: '로그아웃' }))
+    await waitFor(() => expect(router.state.location.pathname).toBe('/login'))
+    await user.click(screen.getByRole('radio', { name: /강사/ }))
+    await user.click(screen.getByRole('button', { name: '로그인' }))
+
+    await waitFor(() => expect(router.state.location.pathname).toBe('/lessons'))
+  })
 })
 
 describe('RBAC', () => {

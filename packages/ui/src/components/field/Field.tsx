@@ -14,12 +14,12 @@ export interface FieldProps {
 /** label / hint / error 메시지를 입력 컨트롤과 접근성 있게 연결하는 래퍼 */
 export function Field({ id, label, hint, error, required, className, children }: FieldProps) {
   return (
-    <div className={cn('flex flex-col gap-1.5', className)}>
+    <div className={cn('flex flex-col gap-2', className)}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium text-gray-800">
+        <label htmlFor={id} className="text-[13px] font-semibold text-gray-700">
           {label}
           {required && (
-            <span aria-hidden className="text-danger-600 ml-0.5">
+            <span aria-hidden className="text-brand-500 ml-0.5">
               *
             </span>
           )}
@@ -27,11 +27,11 @@ export function Field({ id, label, hint, error, required, className, children }:
       )}
       {children}
       {error ? (
-        <p id={`${id}-error`} role="alert" className="text-danger-600 text-xs">
+        <p id={`${id}-error`} role="alert" className="text-danger-500 text-[13px]">
           {error}
         </p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="text-xs text-gray-500">
+        <p id={`${id}-hint`} className="text-[13px] text-gray-500">
           {hint}
         </p>
       ) : null}

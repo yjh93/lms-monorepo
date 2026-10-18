@@ -25,7 +25,7 @@ function TrendTooltip({ active, payload }: TooltipContentProps) {
   const week = payload?.[0]?.payload as Week | undefined
   if (!active || !week) return null
   return (
-    <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs shadow-sm">
+    <div className="shadow-floating rounded-xl bg-white px-3.5 py-2.5 text-[13px]">
       <p className="font-medium text-gray-900">{weekLabel(week.weekStart)} 시작</p>
       <p className="mt-1 text-gray-900">
         출석률 <strong>{formatPercent(week.rate)}</strong>

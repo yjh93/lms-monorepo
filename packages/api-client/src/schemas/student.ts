@@ -1,3 +1,4 @@
+import { formatPhone } from '@lms/utils'
 import { z } from 'zod'
 import {
   createSearchParamsCodec,
@@ -103,7 +104,18 @@ export const studentFormDefaults: StudentFormInput = {
 
 export function toStudentFormInput(student: Student): StudentFormInput {
   const { name, email, phone, company, department, level, status, enrolledAt, memo } = student
-  return { name, email, phone, company, department, level, status, enrolledAt, memo }
+  // 저장 값은 숫자만이지만, 폼에는 입력할 때와 같은 하이픈 형식으로 보여준다(스키마가 다시 숫자만 남긴다).
+  return {
+    name,
+    email,
+    phone: formatPhone(phone, ''),
+    company,
+    department,
+    level,
+    status,
+    enrolledAt,
+    memo,
+  }
 }
 
 // ──────────────────────────────────────────────

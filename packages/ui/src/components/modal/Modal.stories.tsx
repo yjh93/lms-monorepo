@@ -36,10 +36,10 @@ export const Default: Story = {
           onClose={close}
           footer={
             <>
-              <Button variant="secondary" onClick={close}>
+              <Button variant="neutral" size="lg" onClick={close}>
                 취소
               </Button>
-              <Button variant="danger" onClick={close}>
+              <Button variant="danger" size="lg" onClick={close}>
                 삭제
               </Button>
             </>

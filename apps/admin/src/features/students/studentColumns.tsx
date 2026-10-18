@@ -17,12 +17,12 @@ export const getStudentColumns = ({ canEdit }: { canEdit: boolean }) => [
       canEdit ? (
         <Link
           to={`/students/${info.row.original.id}/edit`}
-          className="text-brand-700 font-medium hover:underline"
+          className="hover:text-brand-500 font-semibold text-gray-900"
         >
           {info.getValue()}
         </Link>
       ) : (
-        <span className="font-medium">{info.getValue()}</span>
+        <span className="font-semibold text-gray-900">{info.getValue()}</span>
       ),
   }),
   column.accessor('email', { header: '이메일', enableSorting: false }),
@@ -37,7 +37,7 @@ export const getStudentColumns = ({ canEdit }: { canEdit: boolean }) => [
     cell: (info) => (
       <span>
         {info.getValue()}
-        <span className="ml-1 text-xs text-gray-500">{info.row.original.department}</span>
+        <span className="ml-1.5 text-[13px] text-gray-500">{info.row.original.department}</span>
       </span>
     ),
   }),

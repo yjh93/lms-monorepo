@@ -120,7 +120,7 @@ export function StudentImportPage() {
         description={`최대 ${MAX_ROWS}행. 등록 폼과 같은 규칙으로 행마다 검증하고, 정상 행만 등록합니다.`}
         actions={
           <Button
-            variant="secondary"
+            variant="surface"
             onClick={() => downloadText(buildTemplate(), '수강생_등록_양식.csv')}
           >
             양식 내려받기
@@ -137,14 +137,16 @@ export function StudentImportPage() {
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
         className={cn(
-          'mb-4 flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed bg-white px-6 py-10 text-center',
-          dragging ? 'border-brand-500 bg-brand-50' : 'border-gray-300 hover:border-gray-400',
+          'rounded-card mb-4 flex cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed bg-white px-6 py-14 text-center transition-colors',
+          dragging
+            ? 'border-brand-500 bg-brand-50'
+            : 'hover:border-brand-300 border-gray-200 hover:bg-gray-50',
         )}
       >
-        <span className="text-sm font-medium text-gray-900">
+        <span className="text-[17px] font-bold text-gray-900">
           {isParsing ? '검증하는 중…' : 'CSV 파일을 끌어다 놓거나 클릭해서 선택하세요'}
         </span>
-        <span className="text-xs text-gray-500">
+        <span className="text-[13px] text-gray-500">
           필수 열:{' '}
           {CSV_FIELDS.filter((f) => f.required)
             .map((f) => f.label)
@@ -167,14 +169,17 @@ export function StudentImportPage() {
       {fileError && (
         <p
           role="alert"
-          className="border-danger-50 text-danger-700 mb-4 rounded-lg border bg-white p-4 text-sm"
+          className="bg-danger-50 text-danger-600 mb-4 rounded-2xl px-5 py-4 text-[15px] font-medium"
         >
           {fileError}
         </p>
       )}
 
       {createdCount !== null && (
-        <div role="status" className="bg-success-50 text-success-700 mb-4 rounded-lg p-4 text-sm">
+        <div
+          role="status"
+          className="bg-success-50 text-success-700 mb-4 rounded-2xl px-5 py-4 text-[15px] font-medium"
+        >
           {formatNumber(createdCount)}명을 등록했습니다.{' '}
           <Link to="/students" className="font-medium underline">
             수강생 목록 보기
@@ -186,9 +191,9 @@ export function StudentImportPage() {
         <>
           <section
             aria-label="검증 요약"
-            className="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4"
+            className="rounded-card mb-4 flex flex-wrap items-center justify-between gap-4 bg-white p-6"
           >
-            <dl className="flex gap-6 text-sm">
+            <dl className="flex gap-8">
               <div>
                 <dt className="text-gray-500">파일</dt>
                 <dd className="font-medium">{parsed.fileName}</dd>
@@ -207,10 +212,10 @@ export function StudentImportPage() {
               </div>
             </dl>
             <div className="flex flex-wrap gap-2">
-              <label className="flex items-center gap-1.5 text-sm text-gray-700">
+              <label className="flex cursor-pointer items-center gap-2 text-[14px] text-gray-700">
                 <input
                   type="checkbox"
-                  className="accent-brand-600"
+                  className="accent-brand-500 size-4"
                   checked={errorsOnly}
                   onChange={(event) => setErrorsOnly(event.target.checked)}
                 />
@@ -218,7 +223,7 @@ export function StudentImportPage() {
               </label>
               {reportErrorCount > 0 && (
                 <Button
-                  variant="secondary"
+                  variant="neutral"
                   onClick={() =>
                     downloadText(buildErrorReport(reportRows), `오류리포트_${parsed.fileName}`)
                   }

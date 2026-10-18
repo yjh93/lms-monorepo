@@ -36,21 +36,37 @@ export function Select({
 
   return (
     <Field id={selectId} label={label} hint={hint} error={error} required={required}>
-      <select
-        id={selectId}
-        required={required}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy(selectId, { error, hint })}
-        className={cn(controlClass, 'pr-8', className)}
-        {...props}
-      >
-        {placeholder !== undefined && <option value="">{placeholder}</option>}
-        {options.map((option) => (
-          <option key={option.value} value={option.value} disabled={option.disabled}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          id={selectId}
+          required={required}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy(selectId, { error, hint })}
+          className={cn(controlClass, 'cursor-pointer appearance-none pr-10', className)}
+          {...props}
+        >
+          {placeholder !== undefined && <option value="">{placeholder}</option>}
+          {options.map((option) => (
+            <option key={option.value} value={option.value} disabled={option.disabled}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <svg
+          aria-hidden
+          viewBox="0 0 20 20"
+          className="pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-gray-500"
+        >
+          <path
+            d="M5 7.5l5 5 5-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
     </Field>
   )
 }

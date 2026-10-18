@@ -38,7 +38,7 @@ const columns = [
     cell: (info) => (
       <span className="whitespace-nowrap">
         {info.getValue().name}
-        <span className="ml-1 text-xs text-gray-500">{ROLE_LABEL[info.getValue().role]}</span>
+        <span className="ml-1.5 text-[13px] text-gray-500">{ROLE_LABEL[info.getValue().role]}</span>
       </span>
     ),
   }),
@@ -50,13 +50,14 @@ const columns = [
   }),
   column.accessor('summary', {
     header: '내용',
+    meta: { className: 'min-w-80 whitespace-normal py-3' },
     cell: (info) => {
       const { changes } = info.row.original
       return (
         <div>
           <p>{info.getValue()}</p>
           {changes.length > 0 && (
-            <ul className="mt-1 space-y-0.5 text-xs text-gray-500">
+            <ul className="mt-1.5 space-y-0.5 text-[13px] text-gray-500">
               {changes.map((change) => (
                 <li key={change.field}>
                   {change.label}: <del className="text-gray-400">{change.from}</del> →{' '}
@@ -99,7 +100,7 @@ export function AuditLogPage() {
 
       <section
         aria-label="변경 이력 필터"
-        className="mb-4 grid gap-4 rounded-xl border border-gray-200 bg-white p-4 lg:grid-cols-3"
+        className="rounded-card mb-4 grid gap-6 bg-white p-6 lg:grid-cols-3"
       >
         <Input
           label="검색"

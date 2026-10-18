@@ -8,8 +8,8 @@ export const LESSON_STATUS_TONE: Record<LessonStatus, BadgeTone> = {
 }
 
 export const ATTENDANCE_TONE: Record<AttendanceStatus, string> = {
-  PRESENT: 'bg-success-700 text-white border-success-700',
-  LATE: 'bg-warning-700 text-white border-warning-700',
-  ABSENT: 'bg-danger-600 text-white border-danger-600',
-  EXCUSED: 'bg-gray-600 text-white border-gray-600',
+  PRESENT: 'bg-white text-success-700 shadow-sm',
+  LATE: 'bg-white text-warning-700 shadow-sm',
+  ABSENT: 'bg-white text-danger-600 shadow-sm',
+  EXCUSED: 'bg-white text-gray-800 shadow-sm',
 }

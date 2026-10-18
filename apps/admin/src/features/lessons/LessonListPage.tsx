@@ -47,11 +47,11 @@ export function LessonListPage() {
 
       <section
         aria-label="주 선택"
-        className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4"
+        className="rounded-card mb-6 flex flex-wrap items-center justify-between gap-3 bg-white px-6 py-4"
       >
         <div className="flex items-center gap-2">
           <Button
-            variant="secondary"
+            variant="neutral"
             size="sm"
             disabled={!currentWeek}
             onClick={() => setParam('week', addDaysISO(currentWeek, -7))}
@@ -59,13 +59,13 @@ export function LessonListPage() {
             이전 주
           </Button>
           <p
-            className="min-w-44 text-center text-sm font-semibold text-gray-900"
+            className="min-w-48 text-center text-[17px] font-bold text-gray-900"
             aria-live="polite"
           >
             {currentWeek ? formatWeekRange(currentWeek) : '…'}
           </p>
           <Button
-            variant="secondary"
+            variant="neutral"
             size="sm"
             disabled={!currentWeek}
             onClick={() => setParam('week', addDaysISO(currentWeek, 7))}
@@ -102,8 +102,10 @@ export function LessonListPage() {
         <div className="flex flex-col gap-6">
           {groupByDate(lessons.data.items).map(([date, items]) => (
             <section key={date} aria-label={formatDayLabel(date)}>
-              <h2 className="mb-2 text-sm font-semibold text-gray-700">{formatDayLabel(date)}</h2>
-              <ul className="divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200 bg-white">
+              <h2 className="mb-3 px-1 text-[15px] font-bold text-gray-800">
+                {formatDayLabel(date)}
+              </h2>
+              <ul className="rounded-card overflow-hidden bg-white py-2">
                 {items.map((lesson) => (
                   <LessonRow key={lesson.id} lesson={lesson} />
                 ))}
@@ -123,14 +125,14 @@ function LessonRow({ lesson }: { lesson: Lesson }) {
     <li>
       <Link
         to={`/lessons/${lesson.id}`}
-        className="grid gap-2 px-4 py-3 text-sm hover:bg-gray-50 sm:grid-cols-[6rem_1fr_10rem_9rem] sm:items-center"
+        className="grid gap-2 px-6 py-4 text-[15px] transition-colors hover:bg-gray-50 sm:grid-cols-[7rem_1fr_9rem_11rem] sm:items-center"
       >
-        <span className="font-medium text-gray-900 tabular-nums">
+        <span className="font-semibold text-gray-900 tabular-nums">
           {lesson.startTime}–{lesson.endTime}
         </span>
         <span>
-          <span className="font-medium text-gray-900">{lesson.courseTitle}</span>
-          <span className="ml-2 text-xs text-gray-500">
+          <span className="font-semibold text-gray-900">{lesson.courseTitle}</span>
+          <span className="mt-0.5 block text-[13px] text-gray-500">
             {lesson.company} · {LANGUAGE_LABEL[lesson.language]} ·{' '}
             {lesson.mode === 'ONLINE' ? '온라인' : '방문'}
           </span>
@@ -141,7 +143,7 @@ function LessonRow({ lesson }: { lesson: Lesson }) {
             {LESSON_STATUS_LABEL[lesson.status]}
           </Badge>
           {lesson.status !== 'CANCELED' && (
-            <span className="text-xs text-gray-500 tabular-nums">
+            <span className="text-[13px] text-gray-500 tabular-nums">
               출석 {present + late}/{total}
               {unmarked > 0 && lesson.status === 'COMPLETED' && ` · 미체크 ${unmarked}`}
             </span>

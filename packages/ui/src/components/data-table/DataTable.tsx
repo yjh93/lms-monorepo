@@ -67,11 +67,11 @@ export function DataTable<TData extends RowData>({
   const columnCount = table.getAllLeafColumns().length
 
   return (
-    <div className={cn('overflow-hidden rounded-xl border border-gray-200 bg-white', className)}>
+    <div className={cn('rounded-card overflow-hidden bg-white', className)}>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm" aria-busy={isLoading || undefined}>
+        <table className="w-full text-[15px]" aria-busy={isLoading || undefined}>
           {caption && <caption className="sr-only">{caption}</caption>}
-          <thead className="border-b border-gray-200 bg-gray-50">
+          <thead className="border-b border-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -90,7 +90,7 @@ export function DataTable<TData extends RowData>({
                             : undefined
                       }
                       className={cn(
-                        'px-4 py-3 font-medium whitespace-nowrap text-gray-600',
+                        'h-12 px-5 text-[13px] font-medium whitespace-nowrap text-gray-500 first:pl-6 last:pr-6',
                         alignClass[meta?.align ?? 'left'],
                         meta?.className,
                       )}
@@ -99,7 +99,7 @@ export function DataTable<TData extends RowData>({
                         <button
                           type="button"
                           onClick={header.column.getToggleSortingHandler()}
-                          className="inline-flex items-center gap-1 hover:text-gray-900"
+                          className="-mx-1.5 inline-flex items-center gap-1 rounded-md px-1.5 py-1 hover:bg-gray-100 hover:text-gray-800"
                         >
                           <table.FlexRender header={header} />
                           <SortIcon direction={sorted} />
@@ -113,23 +113,23 @@ export function DataTable<TData extends RowData>({
               </tr>
             ))}
           </thead>
-          <tbody className={cn('divide-y divide-gray-100', isLoading && 'opacity-50')}>
+          <tbody className={cn('transition-opacity', isLoading && 'opacity-40')}>
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={columnCount} className="px-4 py-12 text-center text-gray-500">
+                <td colSpan={columnCount} className="px-6 py-20 text-center text-gray-500">
                   {isLoading ? '불러오는 중…' : emptyMessage}
                 </td>
               </tr>
             ) : (
               rows.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-50">
+                <tr key={row.id} className="transition-colors hover:bg-gray-50">
                   {row.getAllCells().map((cell) => {
                     const meta = cell.column.columnDef.meta
                     return (
                       <td
                         key={cell.id}
                         className={cn(
-                          'px-4 py-3 text-gray-900',
+                          'h-14 px-5 whitespace-nowrap text-gray-800 first:pl-6 last:pr-6',
                           alignClass[meta?.align ?? 'left'],
                           meta?.className,
                         )}
@@ -148,7 +148,7 @@ export function DataTable<TData extends RowData>({
       {pagination && (
         <nav
           aria-label="페이지 이동"
-          className="flex items-center justify-between gap-4 border-t border-gray-200 px-4 py-3 text-sm text-gray-600"
+          className="flex items-center justify-between gap-4 border-t border-gray-100 px-6 py-4 text-[13px] text-gray-500"
         >
           <span>
             {rowCount !== undefined ? `총 ${rowCount.toLocaleString()}건 · ` : ''}
@@ -156,7 +156,7 @@ export function DataTable<TData extends RowData>({
           </span>
           <div className="flex gap-2">
             <Button
-              variant="secondary"
+              variant="neutral"
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
@@ -164,7 +164,7 @@ export function DataTable<TData extends RowData>({
               이전
             </Button>
             <Button
-              variant="secondary"
+              variant="neutral"
               size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
@@ -180,7 +180,7 @@ export function DataTable<TData extends RowData>({
 
 function SortIcon({ direction }: { direction: false | 'asc' | 'desc' }) {
   return (
-    <span aria-hidden className={cn('text-xs', direction ? 'text-brand-600' : 'text-gray-300')}>
+    <span aria-hidden className={cn('text-[10px]', direction ? 'text-brand-500' : 'text-gray-300')}>
       {direction === 'desc' ? '▼' : direction === 'asc' ? '▲' : '↕'}
     </span>
   )

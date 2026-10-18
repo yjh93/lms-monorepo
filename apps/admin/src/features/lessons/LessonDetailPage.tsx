@@ -29,7 +29,7 @@ export function LessonDetailPage() {
         <p role="alert" className="text-danger-700 text-sm">
           {lesson.error.message}
         </p>
-        <Link to="/lessons" className="text-brand-600 mt-4 inline-block text-sm hover:underline">
+        <Link to="/lessons" className="text-brand-500 mt-4 inline-block text-[15px] font-semibold">
           수업 목록으로
         </Link>
       </div>
@@ -96,7 +96,10 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
         title={lesson.courseTitle}
         description={`${formatDayLabel(lesson.date)} ${lesson.startTime}–${lesson.endTime} · ${lesson.company} · ${lesson.teacherName} · ${LANGUAGE_LABEL[lesson.language]}`}
         actions={
-          <Link to="/lessons" className="text-brand-600 self-center text-sm hover:underline">
+          <Link
+            to="/lessons"
+            className="inline-flex h-11 items-center rounded-xl bg-white px-4 text-[15px] font-semibold text-gray-700 hover:bg-gray-50"
+          >
             ← 수업 목록
           </Link>
         }
@@ -104,9 +107,9 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
 
       <section
         aria-label="출석 요약"
-        className="mb-4 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4"
+        className="rounded-card mb-4 flex flex-wrap items-center justify-between gap-4 bg-white px-6 py-5"
       >
-        <div className="flex flex-wrap items-center gap-3 text-sm">
+        <div className="flex flex-wrap items-center gap-4 text-[15px]">
           <Badge tone={LESSON_STATUS_TONE[lesson.status]}>
             {LESSON_STATUS_LABEL[lesson.status]}
           </Badge>
@@ -121,10 +124,10 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
         </div>
         {editable && (
           <div className="flex flex-wrap items-center gap-3">
-            <label className="flex items-center gap-1.5 text-xs text-gray-500">
+            <label className="flex cursor-pointer items-center gap-2 text-[13px] text-gray-500">
               <input
                 type="checkbox"
-                className="accent-danger-600"
+                className="accent-danger-500 size-4"
                 checked={simulateFailure}
                 onChange={(event) => setSimulateFailure(event.target.checked)}
               />
@@ -144,7 +147,7 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
       </section>
 
       {!editable && (
-        <p className="mb-4 rounded-lg bg-gray-100 p-3 text-sm text-gray-600">
+        <p className="mb-4 rounded-2xl bg-white px-6 py-4 text-[15px] text-gray-600">
           {lesson.status === 'CANCELED'
             ? '휴강한 수업은 출석을 체크할 수 없습니다.'
             : '아직 진행하지 않은 수업입니다. 수업 당일부터 출석을 체크할 수 있습니다.'}
@@ -155,7 +158,7 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
         {errorMessage && (
           <p
             role="alert"
-            className="border-danger-50 text-danger-700 rounded-lg border bg-white p-3 text-sm"
+            className="bg-danger-50 text-danger-600 rounded-2xl px-5 py-4 text-[15px] font-medium"
           >
             {errorMessage}
           </p>
@@ -165,7 +168,7 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
       <ul
         aria-label="출석부"
         aria-busy={isPending || undefined}
-        className="divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200 bg-white"
+        className="rounded-card overflow-hidden bg-white py-2"
       >
         {roster.map((entry) => {
           const saving = savedStatus.get(entry.student.id) !== entry.status
@@ -173,15 +176,15 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
             <li
               key={entry.student.id}
               aria-label={entry.student.name}
-              className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+              className="flex flex-wrap items-center justify-between gap-3 px-6 py-3.5"
             >
-              <div className="text-sm">
-                <span className="font-medium text-gray-900">{entry.student.name}</span>
-                <span className="ml-2 text-xs text-gray-500">
+              <div className="text-[15px]">
+                <span className="font-semibold text-gray-900">{entry.student.name}</span>
+                <span className="ml-2 text-[13px] text-gray-500">
                   {entry.student.department} · {LEVEL_LABEL[entry.student.level]}
                 </span>
                 {saving && (
-                  <span className="text-brand-600 ml-2 text-xs" aria-live="polite">
+                  <span className="text-brand-500 ml-2 text-[13px] font-medium" aria-live="polite">
                     저장 중…
                   </span>
                 )}
@@ -189,7 +192,7 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
               <div
                 role="group"
                 aria-label={`${entry.student.name} 출석 상태`}
-                className="flex gap-1"
+                className="flex gap-1 rounded-xl bg-gray-100 p-1"
               >
                 {ATTENDANCE_STATUSES.map((status) => {
                   const selected = entry.status === status
@@ -203,11 +206,11 @@ function LessonAttendance({ lesson }: { lesson: LessonDetail }) {
                         save([{ studentId: entry.student.id, status: selected ? null : status }])
                       }
                       className={cn(
-                        'h-8 rounded-md border px-3 text-xs font-medium transition-colors',
+                        'h-9 min-w-14 rounded-[10px] px-3 text-[14px] font-semibold transition-colors',
                         'disabled:cursor-not-allowed disabled:opacity-50',
                         selected
                           ? ATTENDANCE_TONE[status]
-                          : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
+                          : 'text-gray-500 hover:bg-white/70 hover:text-gray-700',
                       )}
                     >
                       {ATTENDANCE_STATUS_LABEL[status]}

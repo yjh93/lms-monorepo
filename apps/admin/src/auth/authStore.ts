@@ -16,6 +16,7 @@ function readStoredUser(): AuthUser | null {
 }
 
 let currentUser: AuthUser | null = readStoredUser()
+let signedOutByUser = false
 const listeners = new Set<() => void>()
 
 /**
@@ -25,7 +26,15 @@ const listeners = new Set<() => void>()
  */
 export const authStore = {
   getUser: () => currentUser,
+  /** 사용자가 직접 로그아웃했는지. 이 경우엔 로그인 후 "원래 보던 화면"으로 되돌리지 않는다. */
+  wasSignedOutByUser: () => signedOutByUser,
+  signOut() {
+    authStore.setUser(null)
+    // 구독자 리렌더는 이벤트 핸들러가 끝난 뒤 일어나므로, 그 전에 플래그를 세운다.
+    signedOutByUser = true
+  },
   setUser(user: AuthUser | null) {
+    signedOutByUser = false
     currentUser = user
     try {
       if (user) sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user))

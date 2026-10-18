@@ -7,7 +7,10 @@ const meta = {
   component: Button,
   args: { children: '저장', onClick: fn() },
   argTypes: {
-    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'danger'] },
+    variant: {
+      control: 'inline-radio',
+      options: ['primary', 'secondary', 'neutral', 'surface', 'ghost', 'danger'],
+    },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
   },
 } satisfies Meta<typeof Button>
@@ -25,6 +28,9 @@ export const Variants: Story = {
       </Button>
       <Button {...args} variant="secondary">
         취소
+      </Button>
+      <Button {...args} variant="neutral">
+        닫기
       </Button>
       <Button {...args} variant="ghost">
         더보기

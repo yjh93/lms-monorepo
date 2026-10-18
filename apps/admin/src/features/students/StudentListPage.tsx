@@ -58,9 +58,9 @@ export function StudentListPage() {
       </div>
 
       {isError ? (
-        <div role="alert" className="border-danger-50 rounded-xl border bg-white p-8 text-center">
+        <div role="alert" className="rounded-card bg-white p-10 text-center">
           <p className="text-danger-700 text-sm">{error.message}</p>
-          <Button variant="secondary" className="mt-4" onClick={() => refetch()}>
+          <Button variant="neutral" className="mt-4" onClick={() => refetch()}>
             다시 시도
           </Button>
         </div>

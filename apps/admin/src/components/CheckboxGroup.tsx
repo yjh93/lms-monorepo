@@ -8,7 +8,10 @@ interface CheckboxGroupProps<T extends string> {
   className?: string
 }
 
-/** 다중 선택 필터용 체크박스 그룹 (fieldset/legend로 그룹 이름을 노출) */
+/**
+ * 다중 선택 필터를 칩 형태로 보여준다.
+ * 실제 컨트롤은 네이티브 체크박스(시각적으로만 숨김)라 키보드·스크린리더 동작은 그대로다.
+ */
 export function CheckboxGroup<T extends string>({
   legend,
   options,
@@ -25,18 +28,27 @@ export function CheckboxGroup<T extends string>({
   }
 
   return (
-    <fieldset className={cn('flex flex-col gap-1.5', className)}>
-      <legend className="mb-1.5 text-sm font-medium text-gray-800">{legend}</legend>
-      <div className="flex flex-wrap gap-x-4 gap-y-2">
+    <fieldset className={cn('flex flex-col gap-2', className)}>
+      <legend className="mb-2 text-[13px] font-semibold text-gray-700">{legend}</legend>
+      <div className="flex flex-wrap gap-2">
         {options.map((option) => (
-          <label key={option.value} className="flex items-center gap-1.5 text-sm text-gray-700">
+          <label key={option.value} className="cursor-pointer">
             <input
               type="checkbox"
-              className="accent-brand-600 size-4"
+              className="peer sr-only"
               checked={value.includes(option.value)}
               onChange={(event) => toggle(option.value, event.target.checked)}
             />
-            {option.label}
+            <span
+              className={cn(
+                'inline-flex h-9 items-center rounded-full px-3.5 text-[14px] font-medium transition-colors',
+                'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                'peer-checked:bg-gray-800 peer-checked:text-white',
+                'peer-focus-visible:ring-brand-500 peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
+              )}
+            >
+              {option.label}
+            </span>
           </label>
         ))}
       </div>

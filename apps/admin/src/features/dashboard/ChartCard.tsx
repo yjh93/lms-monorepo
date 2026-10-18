@@ -12,16 +12,16 @@ interface ChartCardProps {
 
 export function ChartCard({ title, description, legend, table, children }: ChartCardProps) {
   return (
-    <section aria-label={title} className="rounded-xl border border-gray-200 bg-white p-5">
-      <header className="mb-4">
-        <h2 className="text-base font-semibold text-gray-900">{title}</h2>
-        {description && <p className="mt-0.5 text-xs text-gray-500">{description}</p>}
+    <section aria-label={title} className="rounded-card bg-white p-6">
+      <header className="mb-5">
+        <h2 className="text-[17px] font-bold text-gray-900">{title}</h2>
+        {description && <p className="mt-1 text-[13px] text-gray-500">{description}</p>}
       </header>
       {legend}
       {/* 시각 차트는 보조 기술에서 숨기고, 같은 정보를 아래 표로 제공한다 */}
       <div aria-hidden>{children}</div>
-      <details className="mt-3 text-sm">
-        <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
+      <details className="mt-4 text-sm">
+        <summary className="inline-flex h-8 cursor-pointer items-center rounded-lg bg-gray-100 px-3 text-[13px] font-medium text-gray-600 hover:bg-gray-200">
           표로 보기
         </summary>
         <div className="mt-2 overflow-x-auto">{table}</div>
@@ -40,10 +40,10 @@ export function DataTableSimple({
   rows: (string | number)[][]
 }) {
   return (
-    <table className="w-full text-xs">
+    <table className="w-full text-[13px]">
       <caption className="sr-only">{caption}</caption>
       <thead>
-        <tr className="border-b border-gray-200 text-gray-500">
+        <tr className="border-b border-gray-100 text-gray-500">
           {headers.map((header, index) => (
             <th
               key={header}

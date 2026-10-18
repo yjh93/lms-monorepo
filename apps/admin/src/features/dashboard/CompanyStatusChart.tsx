@@ -24,7 +24,7 @@ const SERIES: { key: keyof Omit<Row, 'company'>; status: StudentStatus; color: s
 
 function Legend() {
   return (
-    <ul className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600">
+    <ul className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-gray-600">
       {SERIES.map((s) => (
         <li key={s.key} className="flex items-center gap-1.5">
           <span aria-hidden className="size-2.5 rounded-sm" style={{ backgroundColor: s.color }} />
@@ -40,7 +40,7 @@ function CompanyTooltip({ active, payload }: TooltipContentProps) {
   if (!active || !row) return null
   const total = SERIES.reduce((sum, s) => sum + row[s.key], 0)
   return (
-    <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs shadow-sm">
+    <div className="shadow-floating rounded-xl bg-white px-3.5 py-2.5 text-[13px]">
       <p className="font-medium text-gray-900">
         {row.company} <span className="font-normal text-gray-500">총 {total}명</span>
       </p>
@@ -99,7 +99,7 @@ export function CompanyStatusChart({ data }: { data: Row[] }) {
           />
           <Tooltip
             content={CompanyTooltip}
-            cursor={{ fill: '#f5f5f4' }}
+            cursor={{ fill: '#f2f4f6' }}
             isAnimationActive={false}
           />
           {SERIES.map((s, index) => (

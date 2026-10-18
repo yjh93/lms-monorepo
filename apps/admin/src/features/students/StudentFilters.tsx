@@ -36,41 +36,48 @@ export function StudentFilters({
   return (
     <section
       aria-label="수강생 검색 필터"
-      className="mb-4 grid gap-4 rounded-xl border border-gray-200 bg-white p-4 lg:grid-cols-[1fr_1fr_14rem]"
+      className="rounded-card mb-4 flex flex-col gap-6 bg-white p-6"
     >
-      <Input
-        label="검색"
-        type="search"
-        placeholder="이름, 이메일, 전화번호, 부서"
-        value={keyword}
-        onChange={(event) => {
-          setKeyword(event.target.value)
-          commitKeyword(event.target.value)
-        }}
-        className="lg:col-span-2"
-      />
-      <Select
-        label="고객사"
-        placeholder="전체"
-        value={query.company}
-        onChange={(event) => setQuery({ company: event.target.value })}
-        options={(companies.data ?? []).map((company) => ({ value: company, label: company }))}
-      />
-      <CheckboxGroup
-        legend="수강 상태"
-        options={statusOptions}
-        value={query.status}
-        onChange={(status) => setQuery({ status })}
-      />
-      <CheckboxGroup
-        legend="레벨"
-        options={levelOptions}
-        value={query.level}
-        onChange={(level) => setQuery({ level })}
-      />
-      <div className="flex items-end justify-end">
-        <Button variant="ghost" onClick={resetFilters} disabled={activeFilterCount === 0}>
-          필터 초기화{activeFilterCount > 0 && ` (${activeFilterCount})`}
+      <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
+        <Input
+          label="검색"
+          type="search"
+          placeholder="이름, 이메일, 전화번호, 부서"
+          value={keyword}
+          onChange={(event) => {
+            setKeyword(event.target.value)
+            commitKeyword(event.target.value)
+          }}
+        />
+        <Select
+          label="고객사"
+          placeholder="전체"
+          value={query.company}
+          onChange={(event) => setQuery({ company: event.target.value })}
+          options={(companies.data ?? []).map((company) => ({ value: company, label: company }))}
+        />
+      </div>
+      <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
+        <CheckboxGroup
+          legend="수강 상태"
+          options={statusOptions}
+          value={query.status}
+          onChange={(status) => setQuery({ status })}
+        />
+        <CheckboxGroup
+          legend="레벨"
+          options={levelOptions}
+          value={query.level}
+          onChange={(level) => setQuery({ level })}
+        />
+        <Button
+          variant="neutral"
+          size="sm"
+          className="ml-auto"
+          onClick={resetFilters}
+          disabled={activeFilterCount === 0}
+        >
+          필터 초기화{activeFilterCount > 0 && ` ${activeFilterCount}`}
         </Button>
       </div>
     </section>

@@ -9,10 +9,12 @@ interface TileProps {
 
 function Tile({ label, value, caption }: TileProps) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <dt className="text-sm text-gray-500">{label}</dt>
-      <dd className="mt-2 text-3xl font-semibold text-gray-900">{value}</dd>
-      {caption && <dd className="mt-1 text-xs text-gray-500">{caption}</dd>}
+    <div className="rounded-card bg-white p-6">
+      <dt className="text-[15px] font-medium text-gray-600">{label}</dt>
+      <dd className="mt-3 text-[30px] leading-none font-bold tracking-[-0.02em] text-gray-900">
+        {value}
+      </dd>
+      {caption && <dd className="mt-3 text-[13px] text-gray-500">{caption}</dd>}
     </div>
   )
 }

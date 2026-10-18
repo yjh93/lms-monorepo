@@ -8,9 +8,11 @@ export function describedBy(id: string, { error, hint }: { error?: ReactNode; hi
   return undefined
 }
 
+/** 테두리 대신 회색 면으로 채운 입력 컨트롤. 포커스 시 흰 면 + 브랜드 링. */
 export const controlClass = cn(
-  'rounded-control h-10 w-full border border-gray-300 bg-white px-3 text-sm text-gray-900',
-  'placeholder:text-gray-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none',
-  'disabled:cursor-not-allowed disabled:bg-gray-50',
-  'aria-invalid:border-danger-600 aria-invalid:focus:ring-danger-50',
+  'h-12 w-full rounded-control border-0 bg-gray-100 px-4 text-[15px] text-gray-900',
+  'placeholder:text-gray-400 transition-[background-color,box-shadow] duration-150',
+  'hover:bg-gray-200/70 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none',
+  'disabled:cursor-not-allowed disabled:text-gray-400 disabled:hover:bg-gray-100',
+  'aria-invalid:bg-danger-50 aria-invalid:focus:ring-danger-500',
 )

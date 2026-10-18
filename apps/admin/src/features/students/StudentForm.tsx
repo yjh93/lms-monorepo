@@ -60,7 +60,7 @@ export function StudentForm({ defaultValues, submitLabel, onSubmit, onCancel }: 
       noValidate
       onSubmit={submit}
       aria-label="수강생 정보"
-      className="grid max-w-3xl gap-5 rounded-xl border border-gray-200 bg-white p-6 sm:grid-cols-2"
+      className="rounded-card grid max-w-3xl gap-x-5 gap-y-6 bg-white p-8 sm:grid-cols-2"
     >
       <Input
         label="이름"
@@ -121,11 +121,17 @@ export function StudentForm({ defaultValues, submitLabel, onSubmit, onCancel }: 
         </p>
       )}
 
-      <div className="flex justify-end gap-2 sm:col-span-2">
-        <Button variant="secondary" onClick={onCancel}>
+      <div className="mt-2 flex justify-end gap-2 sm:col-span-2">
+        <Button variant="neutral" size="lg" className="min-w-28" onClick={onCancel}>
           취소
         </Button>
-        <Button type="submit" loading={isSubmitting} disabled={!isDirty}>
+        <Button
+          type="submit"
+          size="lg"
+          className="min-w-28"
+          loading={isSubmitting}
+          disabled={!isDirty}
+        >
           {submitLabel}
         </Button>
       </div>
