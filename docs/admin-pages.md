@@ -22,6 +22,7 @@ pnpm --filter @lms/admin dev   # http://localhost:5173
 | 수강생 등록 / 수정 | `/students/new`, `/students/:id/edit` | 관리자, 운영 매니저       |
 | CSV 일괄 등록      | `/students/import`                    | 관리자, 운영 매니저       |
 | 수업 / 출석        | `/lessons`, `/lessons/:id`            | 전체 (강사는 본인 수업만) |
+| 출석 분석          | `/analytics`                          | 관리자, 운영 매니저       |
 | 변경 이력          | `/audit-logs`                         | 관리자                    |
 
 ---
@@ -109,6 +110,23 @@ pnpm --filter @lms/admin dev   # http://localhost:5173
 - 출석 체크는 React 19 `useOptimistic` + `useTransition`으로 즉시 반영한다. 성공하면 서버 응답으로 캐시를 확정하고, 실패하면 transition이 끝날 때 이전 상태로 돌아간다(별도의 롤백 코드 없음).
 - "저장 실패 시뮬레이션"을 켜면 목 서버가 500을 반환해 실패 시 동작을 확인할 수 있다.
 - 미래 수업과 휴강 수업은 서버가 409를 반환하고, 화면에서도 버튼을 비활성화한다.
+
+---
+
+## 출석 분석
+
+- 관련 코드: `apps/admin/src/features/analytics/` (엔진: `engine/`, 상태: `analyticsStore.ts`, 쿼리: `analyticsQueries.ts`)
+- 테스트: `engine/engine.test.ts`, `AnalyticsPage.test.tsx`
+- 설계와 측정: [large-data.md](large-data.md)
+
+동작
+
+- 최근 1년 출석 기록 30만 건을 Web Worker 안에서 열 단위 TypedArray로 만들고, 필터·집계·정렬을 모두 워커에서 처리한다.
+- TanStack Query가 워커 호출을 감싸 필터 조합별 집계를 캐시하고, 목록은 커서 기반 `useInfiniteQuery`로 200건씩 받는다.
+- 필터·정렬·히트맵 선택은 Zustand 스토어에 둔다(탐색 중 자주 바뀌는 일시 상태).
+- 요일×시간대 히트맵 셀을 누르면 KPI·차트·목록이 함께 필터링된다(교차 필터).
+- 목록은 TanStack Virtual로 보이는 행만 그린다.
+- 화면 코드는 이 경로에 처음 들어올 때 내려받는다(라우트 단위 코드 분할).
 
 ---
 
