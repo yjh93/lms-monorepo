@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import '@lms/ui/styles.css';
+
+/* 웹 전용 컴포넌트 클래스도 스캔 */
+@source '../';
+
+html {
+  scroll-behavior: smooth;
+}

@@ -8,6 +8,7 @@ import {
   paginatedSchema,
   sortOrderSchema,
 } from './common'
+import { emailField, mobilePhoneField, personNameField } from './fields'
 
 // ──────────────────────────────────────────────
 // 도메인 enum
@@ -62,21 +63,10 @@ export const studentListResponseSchema = paginatedSchema(studentSchema)
 // 등록/수정 폼 — admin 폼(react-hook-form)과 MSW(서버 검증)가 같은 스키마를 쓴다.
 // ──────────────────────────────────────────────
 
-const PHONE_PATTERN = /^01[016789]\d{7,8}$/
-
 export const studentFormSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, '이름은 2자 이상 입력하세요.')
-    .max(20, '이름은 20자 이하로 입력하세요.'),
-  email: z.string().trim().toLowerCase().pipe(z.email('이메일 형식이 올바르지 않습니다.')),
-  // 입력은 "010-1234-5678"도 허용하고, 저장 값은 숫자만 남긴다(입력 타입 ≠ 출력 타입).
-  phone: z
-    .string()
-    .trim()
-    .transform((value) => value.replace(/-/g, ''))
-    .pipe(z.string().regex(PHONE_PATTERN, '휴대폰 번호 형식이 올바르지 않습니다.')),
+  name: personNameField,
+  email: emailField,
+  phone: mobilePhoneField,
   company: z.string().trim().min(1, '고객사를 입력하세요.').max(50),
   department: z.string().trim().max(50, '부서는 50자 이하로 입력하세요.'),
   level: levelSchema,

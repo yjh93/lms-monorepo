@@ -19,6 +19,11 @@
       "@lms/source": "./src/mocks/index.ts",
       "types": "./dist/mocks/index.d.ts",
       "default": "./dist/mocks/index.js"
+    },
+    "./fixtures": {
+      "@lms/source": "./src/fixtures/index.ts",
+      "types": "./dist/fixtures/index.d.ts",
+      "default": "./dist/fixtures/index.js"
     }
   },
   "files": [
