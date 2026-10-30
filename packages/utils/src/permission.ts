@@ -23,6 +23,7 @@ export const PERMISSIONS = [
   'lesson:manage',
   'attendance:check',
   'dashboard:read',
+  'analytics:read',
   'audit:read',
 ] as const
 export type Permission = (typeof PERMISSIONS)[number]
@@ -38,6 +39,7 @@ const ROLE_PERMISSIONS: Record<Role, ReadonlySet<Permission>> = {
     'lesson:manage',
     'attendance:check',
     'dashboard:read',
+    'analytics:read',
   ]),
   TEACHER: new Set<Permission>(['student:read', 'lesson:read', 'attendance:check']),
 }

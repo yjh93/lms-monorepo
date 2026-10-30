@@ -6,6 +6,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router'
 import { authStore, useAuthUser } from '../auth/authStore'
 import {
   CalendarIcon,
+  ChartIcon,
   DashboardIcon,
   HistoryIcon,
   LogoutIcon,
@@ -24,6 +25,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard', label: '대시보드', permission: 'dashboard:read', icon: DashboardIcon },
   { to: '/students', label: '수강생', permission: 'student:read', icon: UsersIcon },
   { to: '/lessons', label: '수업/출석', permission: 'lesson:read', icon: CalendarIcon },
+  { to: '/analytics', label: '출석 분석', permission: 'analytics:read', icon: ChartIcon },
   { to: '/audit-logs', label: '변경 이력', permission: 'audit:read', icon: HistoryIcon },
 ]
 

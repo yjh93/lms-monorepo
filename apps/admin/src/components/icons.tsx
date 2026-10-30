@@ -54,3 +54,12 @@ export const LogoutIcon = (props: SVGProps<SVGSVGElement>) => (
     <path d="M10 16.5 5.5 12 10 7.5M5.5 12H15" />
   </Icon>
 )
+
+export const ChartIcon = (props: SVGProps<SVGSVGElement>) => (
+  <Icon {...props}>
+    <path d="M4 20h16" />
+    <rect x="5.5" y="11" width="3" height="6.5" rx="1" />
+    <rect x="10.5" y="6.5" width="3" height="11" rx="1" />
+    <rect x="15.5" y="9" width="3" height="8.5" rx="1" />
+  </Icon>
+)

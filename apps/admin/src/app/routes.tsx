@@ -58,6 +58,19 @@ export const routes: RouteObject[] = [
             ],
           },
           {
+            path: 'analytics',
+            element: <RequirePermission permission="analytics:read" />,
+            // 데이터셋·차트 코드가 커서 이 화면에 들어올 때만 내려받는다(라우트 단위 코드 분할).
+            children: [
+              {
+                index: true,
+                lazy: async () => ({
+                  Component: (await import('../features/analytics/AnalyticsPage')).AnalyticsPage,
+                }),
+              },
+            ],
+          },
+          {
             path: 'audit-logs',
             element: <RequirePermission permission="audit:read" />,
             children: [{ index: true, element: <AuditLogPage /> }],
