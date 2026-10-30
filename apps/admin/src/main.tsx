@@ -13,10 +13,7 @@ setupApiClient(import.meta.env.VITE_API_BASE_URL ?? '/api')
 async function enableMocking() {
   if (import.meta.env.VITE_API_MOCKING === 'disabled') return
   const { worker } = await import('./mocks/browser')
-  await worker.start({
-    onUnhandledFrame: 'bypass',
-    serviceWorker: { url: `${import.meta.env.BASE_URL}mockServiceWorker.js` },
-  })
+  await worker.start({ onUnhandledFrame: 'bypass' })
 }
 
 await enableMocking()
