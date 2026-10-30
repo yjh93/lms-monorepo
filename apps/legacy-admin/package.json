@@ -1,0 +1,41 @@
+{
+  "name": "@lms/legacy-admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@lms/api-client": "workspace:*",
+    "@lms/utils": "workspace:*",
+    "vue": "3.5.44"
+  },
+  "devDependencies": {
+    "@lms/config": "workspace:*",
+    "@tailwindcss/vite": "4.3.3",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vue/test-utils": "2.5.1",
+    "eslint": "10.12.0",
+    "eslint-plugin-vue": "10.12.0",
+    "jsdom": "30.1.3",
+    "msw": "3.0.3",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.4",
+    "vue-eslint-parser": "10.4.1",
+    "vue-tsc": "3.3.14"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
